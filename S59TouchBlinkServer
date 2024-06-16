@@ -7,6 +7,11 @@ SERVER_PATH=/usr/sbin/
 #DEV_TYPE_FILE=/tmp/BrBoxDevType.txt
 start() {
 	echo -n "Starting $SERVER_NAME Service: "
+        #ensure himax_touchscreen driver is loaded before calling touch-blink
+        RES=$(lsmod | grep himax_mmi)
+        if [ $? != 0 ]; then
+                modprobe himax_mmi
+        fi
 	#DEV_TYPE=$(cat $DEV_TYPE_FILE)
 	#$SERVER_PATH/$SERVER_NAME --boardtype=$DEV_TYPE &
 	echo none > /sys/class/leds/ACT/trigger #touch-blink will on/off mmc0 ACT led of raspberry pi	
