@@ -7,6 +7,7 @@ SET(CMAKE_CXX_COMPILER $ENV{HOME}/arm-buildroot-linux-gnueabihf_sdk-buildroot/us
 
 # where is the target environment 
 SET(CMAKE_FIND_ROOT_PATH  $ENV{HOME}/arm-buildroot-linux-gnueabihf_sdk-buildroot/arm-buildroot-linux-gnueabihf/sysroot)
+SET(CMAKE_SYSROOT  $ENV{HOME}/arm-buildroot-linux-gnueabihf_sdk-buildroot/arm-buildroot-linux-gnueabihf/sysroot)
 
 # search for programs in the build host directories
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
