@@ -15,11 +15,11 @@ start() {
         fi
 	#DEV_TYPE=$(cat $DEV_TYPE_FILE)
 	#$SERVER_PATH/$SERVER_NAME --boardtype=$DEV_TYPE &
-	udevadm info -a /dev/input/event0 |grep -q himax-touchscreen
+	cat /sys/class/input/event0/device/name | grep himax-touchscreen
 	if [ $? = 0 ]; then
 		DEVICE_NODE=/dev/input/event0
 	else
-		udevadm info -a /dev/input/event1 |grep -q himax-touchscreen
+		cat /sys/class/input/event1/device/name | grep himax-touchscreen
 		if [ $? = 0 ]; then
 			DEVICE_NODE=/dev/input/event1
 		fi
