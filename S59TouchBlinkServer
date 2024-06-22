@@ -5,6 +5,7 @@
 SERVER_NAME=touch-blink
 SERVER_PATH=/usr/sbin/
 #DEV_TYPE_FILE=/tmp/BrBoxDevType.txt
+DEVICE_NODE=none
 start() {
 	echo -n "Starting $SERVER_NAME Service: "
         #ensure himax_touchscreen driver is loaded before calling touch-blink
@@ -14,8 +15,17 @@ start() {
         fi
 	#DEV_TYPE=$(cat $DEV_TYPE_FILE)
 	#$SERVER_PATH/$SERVER_NAME --boardtype=$DEV_TYPE &
+	udevadm info -a /dev/input/event0 |grep -q himax-touchscreen
+	if [ $? = 0 ]; then
+		DEVICE_NODE=/dev/input/event0
+	else
+		udevadm info -a /dev/input/event1 |grep -q himax-touchscreen
+		if [ $? = 0 ]; then
+			DEVICE_NODE=/dev/input/event1
+		fi
+	fi
 	echo none > /sys/class/leds/ACT/trigger #touch-blink will on/off mmc0 ACT led of raspberry pi	
-	$SERVER_PATH/$SERVER_NAME &
+	$SERVER_PATH/$SERVER_NAME $DEVICE_NODE &
 	echo "OK"
 }
 

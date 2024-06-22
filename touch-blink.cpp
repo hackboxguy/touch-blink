@@ -18,10 +18,13 @@ void writeToFile(const std::string& path, const std::string& value) {
     }
 }
 /**********************************************************************/
-int main() {
-    const char *devicePath = "/dev/input/event0";
+int main(int argc, char* argv[]) {
+    char devicePath[255] = "/dev/input/event0";
     std::string brightnessPath = std::string(ACT_LED_PATH) + "/brightness";
-    
+    if(argc == 1)
+	std::cout<<"using default node: "<<devicePath<<std::endl;
+    else
+	strncpy(devicePath,argv[1],254);
     int fd = open(devicePath, O_RDONLY);
     if (fd < 0) {
         std::cerr << "Failed to open " << devicePath << std::endl;
